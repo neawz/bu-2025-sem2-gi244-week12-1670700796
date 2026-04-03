@@ -16,9 +16,11 @@ public class Target : MonoBehaviour, IPointerClickHandler
 
     public int point;
     public ParticleSystem explosionParticle;
+    public GameManager gameManager;
 
     void Start()
     {
+        gameManager = FindAnyObjectByType<GameManager>();
         rb = GetComponent<Rigidbody>();
         rb.AddForce(RandomForce(), ForceMode.Impulse);
         rb.AddTorque(RandomTorque(), RandomTorque(), RandomTorque());
@@ -46,8 +48,8 @@ public class Target : MonoBehaviour, IPointerClickHandler
         //var go = GameObject.Find("GameManager");
         //var gm = go.GetComponent<GameManager>();
 
-        var gm = FindAnyObjectByType<GameManager>();
-        gm.UpdateScore(point);
+        
+        gameManager.UpdateScore(point);
 
         Debug.Log("Clicked");
         Instantiate(explosionParticle, transform.position, Quaternion.identity);
@@ -58,12 +60,11 @@ public class Target : MonoBehaviour, IPointerClickHandler
     {
         if (other.CompareTag("Sensor"))
         {
-            var gm = FindAnyObjectByType<GameManager>();
             if (this.gameObject.CompareTag("Bad"))
             {
-                gm.UpdateScore(point);
+                gameManager.UpdateScore(point);
             }
-            gm.UpdateScore(-point);
+            gameManager.UpdateScore(-point);
             Destroy(gameObject);
         }
     }
