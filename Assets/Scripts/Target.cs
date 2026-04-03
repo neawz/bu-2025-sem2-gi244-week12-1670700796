@@ -47,7 +47,6 @@ public class Target : MonoBehaviour, IPointerClickHandler
         //var gm = go.GetComponent<GameManager>();
 
         var gm = FindAnyObjectByType<GameManager>();
-
         gm.UpdateScore(point);
 
         Debug.Log("Clicked");
@@ -59,6 +58,12 @@ public class Target : MonoBehaviour, IPointerClickHandler
     {
         if (other.CompareTag("Sensor"))
         {
+            var gm = FindAnyObjectByType<GameManager>();
+            if (this.gameObject.CompareTag("Bad"))
+            {
+                gm.UpdateScore(point);
+            }
+            gm.UpdateScore(-point);
             Destroy(gameObject);
         }
     }
