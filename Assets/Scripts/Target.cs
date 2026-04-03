@@ -54,6 +54,7 @@ public class Target : MonoBehaviour, IPointerClickHandler
         Debug.Log("Clicked");
         Instantiate(explosionParticle, transform.position, Quaternion.identity);
         Destroy(this.gameObject);
+        Destroy(explosionParticle.gameObject, 2f);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -62,7 +63,8 @@ public class Target : MonoBehaviour, IPointerClickHandler
         {
             if (this.gameObject.CompareTag("Bad"))
             {
-                gameManager.UpdateScore(point);
+                Destroy(gameObject);
+                return;
             }
             gameManager.UpdateScore(-point);
             Destroy(gameObject);
